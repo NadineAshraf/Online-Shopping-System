@@ -22,72 +22,11 @@
 2. **Manage Products** – Add new products, update stock, remove products.
 3. **View All Orders** – See all orders placed by all users.
 4. **Update Order Status** – Change status of orders (e.g., from Processing to Shipped).
-5. +----------------+       +------------------+
-|     User       |       |    Product (abstract)   |
-+----------------+       +------------------+
-| -username      |       | -id              |
-| -password      |       | -name            |
-| -email         |       | -price           |
-| -isAdmin       |       | -stock           |
-+----------------+       | +getDescription()|
-| +getters/setters|       | +applyDiscount()|
-+----------------+       +------------------+
-         ^                         ^
-         |                         |
-         |                         | extends
-         |              +-----------+-----------+-----------+
-         |              |           |           |           |
-         |        +----------+ +----------+ +----------+
-         |        |Electronics| | Clothing | |   Book   |
-         |        +----------+ +----------+ +----------+
-         |        |warranty  | |size      | |author    |
-         |        +----------+ +----------+ +----------+
-         |
-+----------------+       +------------------+
-|    Cart        |       |     Order        |
-+----------------+       +------------------+
-| -items: Map<Product, Integer> | -orderId |
-| +addItem()     |       | -user            |
-| +removeItem()  |       | -items           |
-| +updateQty()   |       | -total           |
-| +undo()        |       | -status          |
-+----------------+       | -paymentMethod   |
-                         | -orderDate       |
-                         +------------------+
+<img width="880" height="530" alt="image" src="https://github.com/user-attachments/assets/a253accc-7e79-4feb-ad2e-32fb9c663d57" />
+<img width="872" height="743" alt="image" src="https://github.com/user-attachments/assets/32a375bc-c0f9-4b5a-8304-988851ccc8ac" />
+<img width="828" height="401" alt="image" src="https://github.com/user-attachments/assets/9054ea53-3353-4a9e-bf0c-81961483a24b" />
 
-+------------------+       +----------------------+
-|   Payment (interface) |       | OrderStatusNotifier (Observer) |
-+------------------+       +----------------------+
-| +pay(double amount) |       | +update(Order)      |
-+------------------+       +----------------------+
 
-+------------------+       +------------------+
-| CreditCardPayment|       | PayPalPayment    |
-+------------------+       +------------------+
-| -cardNumber      |       | -email           |
-+------------------+       +------------------+
-
-+------------------+
-| CashOnDelivery   |
-+------------------+
-| -address         |
-+------------------+
-
-+-------------------+       +-------------------+
-|  ProductFactory   |       | ConfigurationManager (Singleton) |
-+-------------------+       +-------------------+
-| +createProduct()  |       | -instance         |
-+-------------------+       | +getInstance()    |
-                            | +getConfig()      |
-                            +-------------------+
-
-+-------------------+       +-------------------+
-|   UserDAO (interface) |       |  ProductDAO (interface) |
-+-------------------+       +-------------------+
-| +saveUser()       |       | +saveProduct()    |
-| +findUser()       |       | +findProduct()    |
-| +getAllUsers()    |       | +getAllProducts() |
-+-------------------+       +-------------------+
 ## **📝 Step-by-Step Implementation Guide / Milestones**
 
 ### **Milestone 1: Project Setup & Basic Classes**
