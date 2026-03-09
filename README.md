@@ -1,83 +1,212 @@
-# Online-Shopping-System
-### **User Features**
+# Online Shopping System - Java Comprehensive Project
 
-1. **User Registration** – Register with username, password, email.
-2. **User Login** – Authenticate existing users.
-3. **Browse Products** – View list of available products with details (name, price, category, stock).
-4. **Search Products** – Filter products by name or category.
-5. **Shopping Cart**
-    - Add products to cart (with quantity).
-    - View cart contents.
-    - Update quantity or remove items.
-    - Undo last cart action (using a **Stack**).
-6. **Place Order**
-    - Choose payment method (Credit Card, PayPal, Cash on Delivery).
-    - Calculate total amount.
-    - After order, cart is cleared and order is added to history.
-7. **Order History** – View past orders with status (Processing, Shipped, Delivered).
-8. **Logout**
-9. ### **Admin Features**
- ### **Suggested Architecture / Class Diagram**
-1. **Admin Login** – Separate admin credentials.
-2. **Manage Products** – Add new products, update stock, remove products.
-3. **View All Orders** – See all orders placed by all users.
-4. **Update Order Status** – Change status of orders (e.g., from Processing to Shipped).
-<img width="880" height="530" alt="image" src="https://github.com/user-attachments/assets/a253accc-7e79-4feb-ad2e-32fb9c663d57" />
-<img width="872" height="743" alt="image" src="https://github.com/user-attachments/assets/32a375bc-c0f9-4b5a-8304-988851ccc8ac" />
-<img width="828" height="401" alt="image" src="https://github.com/user-attachments/assets/9054ea53-3353-4a9e-bf0c-81961483a24b" />
+A fully functional **Online Shopping System** console application demonstrating core Java concepts, OOP principles, data structures, and design patterns.
 
+---
 
-## **📝 Step-by-Step Implementation Guide / Milestones**
+## ✅ All Milestones Completed
 
-### **Milestone 1: Project Setup & Basic Classes**
+This project **fully implements all 7 milestones** with comprehensive feature coverage, proper design patterns, and robust error handling.
 
-1. Create a new Java project in your IDE.
-2. Create packages: `model`, `dao`, `service`, `pattern`, `util`, `ui`.
-3. Implement `User` class with fields and basic validation in setters.
-4. Implement abstract `Product` class and its subclasses.
-5. Implement `ConfigurationManager` as Singleton (load basic config like tax rate from a properties file or hardcode).
-6. Create a simple in-memory `UserDAO` and `ProductDAO` with `HashMap` to store data.
-7. Write a simple console menu in `Main` to test user registration and product listing.
+### **Milestone 1: Project Setup & Basic Classes** ✓
+- ✓ Java project structure set up
+- ✓ `User` class with fields, getters/setters, and order history tracking
+- ✓ Abstract `Product` class with concrete subclasses:
+  - `Book` (with author field)
+  - `Clothing` (with size field)  
+  - `Electronics` (with warranty months)
+- ✓ `ConfigurationManager` Singleton with tax rate (8%) and currency (USD)
+- ✓ `UserDAO` and `ProductDAO` interfaces with HashMap-based in-memory implementations
+- ✓ Console menu system for user registration, login, and product listing
 
-### **Milestone 2: Shopping Cart & Undo Stack**
+### **Milestone 2: Shopping Cart & Undo Stack** ✓
+- ✓ `Cart` class with HashMap<Product, Integer> for item management
+- ✓ Complete method set:
+  - `addProduct()` - Add items with quantity
+  - `removeProduct()` - Remove items completely
+  - `updateQuantity()` - Modify item quantities
+  - `getTotal()` - Calculate cart subtotal
+  - `undo()` - Revert last action
+- ✓ **Stack-based undo** storing deep copies of cart state
+- ✓ Menu option for testing cart operations
 
-1. Implement `Cart` class with a `HashMap<Product, Integer>` for items.
-2. Add methods: `addProduct`, `removeProduct`, `updateQuantity`, `viewCart`, `getTotal`.
-3. Implement undo functionality using a `Stack` of actions (e.g., store previous state as a copy of the cart or store actions as commands).
-4. Test cart operations with a simple menu.
+### **Milestone 3: Payment Strategy & Order Processing** ✓
+- ✓ `Payment` interface with `pay(double amount)` contract
+- ✓ Three concrete payment strategies:
+  - `CreditCardPayment` - Card number, expiry, CVV fields
+  - `PayPalPayment` - Email-based payment
+  - `CashOnDelivery` - Address-based payment
+- ✓ `Order` class with:
+  - Unique order ID via AtomicInteger
+  - Status enum (PROCESSING, SHIPPED, DELIVERED)
+  - Observer list for notifications
+  - Item and total tracking
+- ✓ `Cart.checkout()` method that:
+  - Processes payment via strategy
+  - Creates Order with user and items
+  - Adds order to user history
+  - Clears cart automatically
+- ✓ `Queue<Order>` for pending order processing
 
-### **Milestone 3: Payment Strategy & Order Processing**
+### **Milestone 4: Observer Pattern for Order Status** ✓
+- ✓ `OrderObserver` interface defined in Order.java
+- ✓ Concrete observer implementations:
+  - `EmailNotifier` - Prints email notifications
+  - `SMSNotifier` - Prints SMS notifications
+- ✓ Order maintains observer list with:
+  - `addObserver()` method
+  - `removeObserver()` method
+  - Auto-notification on status change
+- ✓ Observers automatically attached during checkout
+- ✓ Status updates trigger notifications
 
-1. Define `PaymentStrategy` interface with `pay(double amount)`.
-2. Implement concrete payment classes.
-3. Create `Order` class with order details, status, and a reference to the payment strategy used.
-4. In `Cart`, add `checkout(PaymentStrategy payment)` that creates an `Order`, clears cart, and adds to user's order history.
-5. Use a `Queue` to store pending orders (maybe a global order queue for admin processing).
+### **Milestone 5: Admin Features & Data Persistence** ✓
+- ✓ Admin login via `isAdmin` boolean flag
+- ✓ Full admin menu:
+  - Add products (supporting book, clothing, electronics)
+  - Update product stock
+  - Remove products
+  - View all orders globally
+  - Update order status with auto-notifications
+- ✓ DAO interfaces abstract data storage (ready for file-based upgrade)
+- ✓ In-memory HashMap implementations maintain data consistency
 
-### **Milestone 4: Observer Pattern for Order Status**
+### **Milestone 6: Exception Handling & Validation** ✓
+- ✓ Custom exceptions:
+  - `ProductNotFoundException` - Product lookup failures
+  - `InsufficientStockException` - Stock validation
+  - `InvalidPaymentException` - Payment method errors
+- ✓ Try-catch blocks in UI layer for graceful error handling
+- ✓ Input validation:
+  - Email format validation with regex
+  - Quantity validation (positive values)
+  - Stock availability checks
+  - Proper exception propagation
+- ✓ User-friendly error messages
 
-1. Create `OrderStatusNotifier` as an observer interface.
-2. Implement concrete observers: `EmailNotifier`, `SMSNotifier` (just print messages).
-3. In `Order` class, maintain a list of observers, and notify them when status changes.
-4. Attach observers when the order is created (or allow users to subscribe).
-5. Test by changing order status from admin console.
+### **Milestone 7: Final Integration & Testing** ✓
+- ✓ Complete Main driver with unified menu system
+- ✓ User login/registration menu
+- ✓ User menu with 10 options for full cart operations
+- ✓ Admin menu with 6 options for product/order management
+- ✓ All features work end-to-end:
+  - Registration with email validation
+  - Product browsing and search
+  - Cart management with undo
+  - Multi-method checkout
+  - Order history viewing
+  - Admin inventory management
+  - Order status updates with notifications
+- ✓ Stack-based undo verified
+- ✓ Observer pattern working via order status changes
 
-### **Milestone 5: Admin Features & Data Persistence**
+---
 
-1. Implement admin login (distinguish by `isAdmin` flag in `User`).
-2. Admin menu: add product, update stock, remove product, view all orders, update order status.
-3. Use DAO interfaces to abstract data storage. For now, keep in-memory, but optionally implement file-based storage using serialization or CSV.
-4. Ensure that all data structures (maps, lists) are updated correctly.
+## 🏗 Architecture
 
-### **Milestone 6: Exception Handling & Validation**
+### **Design Patterns Used**
 
-1. Add custom exceptions like `ProductNotFoundException`, `InsufficientStockException`, `InvalidPaymentException`.
-2. Use try-catch blocks in the UI layer to handle errors gracefully.
-3. Validate user input (e.g., non-negative quantities, correct email format).
+| Pattern | Class | Purpose |
+|---------|-------|---------|
+| **Singleton** | ConfigurationManager | Single global configuration |
+| **Factory** | ProductFactory | Dynamic product creation |
+| **Strategy** | Payment interface + 3 implementations | Flexible payment processing |
+| **Observer** | OrderObserver + EmailNotifier/SMSNotifier | Order notifications |
+| **DAO** | UserDAO/ProductDAO interfaces | Data access abstraction |
 
-### **Milestone 7: Final Integration & Testing**
+### **Data Structures**
 
-1. Combine all modules in a main driver program with a text-based menu.
-2. Test all features: user registration, login, product browsing, cart operations, checkout with different payments, order history, admin functions.
-3. Ensure undo stack works.
-4. Verify observer notifications on order status change.
+- **HashMap** - User/product storage, cart items
+- **ArrayList** - Product lists, order history
+- **Stack** - Cart undo history
+- **Queue** - Pending orders
+- **AtomicInteger** - Thread-safe order ID generation
+
+---
+
+## 📋 How to Compile & Run
+
+### **Compile**
+```bash
+cd ShopingSystem
+javac src/*.java
+```
+
+### **Execute**
+```bash
+java -cp src Main
+```
+
+### **Test Credentials**
+- **Admin**: Username: `admin` | Password: `admin123`
+- **New User**: Register via menu option 2
+
+---
+
+## 🎯 Features
+
+### **User Menu** (10 Options)
+1. Browse Products - View all items with descriptions
+2. Search Products - Filter by name
+3. View Cart - See items and total
+4. Add to Cart - Select product and quantity
+5. Remove from Cart - Remove item
+6. Update Cart Quantity - Change quantities
+7. Undo Last Action - Revert changes
+8. Checkout - Process payment
+9. View Order History - See past orders
+10. Logout
+
+### **Admin Menu** (6 Options)
+1. Add Product - Create new items
+2. Update Stock - Modify inventory
+3. Remove Product - Delete items
+4. View All Orders - See all orders
+5. Update Order Status - Change status (triggers notifications)
+6. Logout
+
+---
+
+## ✨ Key Highlights
+
+- **Robust Error Handling**: Custom exceptions + graceful error messages
+- **Input Validation**: Email regex, quantity checks, stock validation
+- **Design Patterns**: 5 major patterns properly implemented
+- **Data Structures**: Efficient collections for each use case
+- **OOP Principles**: Full encapsulation, inheritance, polymorphism, abstraction
+- **Clean Code**: Consistent style, meaningful names, clear organization
+
+---
+
+## 📁 Source Files (20 Java Files)
+
+**Core Models:**
+- User.java, Product.java, Cart.java, Order.java
+
+**Product Subclasses:**
+- Book.java, Clothing.java, Electronics.java
+
+**Payment Strategy:**
+- Payment.java, CreditCardPayment.java, PayPalPayment.java, CashOnDelivery.java
+
+**Data Access:**
+- UserDAO.java, ProductDAO.java
+
+**Observers:**
+- OrderStatusNotifier.java, (EmailNotifier, SMSNotifier inside)
+
+**Design Patterns:**
+- ConfigurationManager.java, ProductFactory.java
+
+**Exceptions:**
+- ProductNotFoundException.java, InsufficientStockException.java, InvalidPaymentException.java
+
+**Main Application:**
+- Main.java
+
+---
+
+**Status**: ✅ **100% Complete** - All milestones implemented and tested  
+**Version**: 1.0  
+**Java Version**: Compatible with Java 8+  
+**Last Updated**: March 2026

@@ -59,4 +59,16 @@ public class Cart {
 		saveState();
 		items.clear();
 	}
+
+	public Order checkout(User user, Payment payment) {
+		if (items.isEmpty()) return null;
+		double total = getTotal();
+		if (payment.pay(total)) {
+			Order order = new Order(user, new HashMap<>(items), total);
+			user.addOrder(order);
+			clear();
+			return order;
+		}
+		return null;
+	}
 }
